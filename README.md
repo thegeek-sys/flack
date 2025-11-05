@@ -1,6 +1,6 @@
 # Flack
 
-A live-time webchat using Python and Javascript inspired by Slack. It is a simple webchat that organized conversations in dedicated channels.
+A live-time webchat using Python and Javascript inspired by Slack. It is a simple webchat that organizes conversations in dedicated channels.
 
 https://github.com/user-attachments/assets/c2378bdf-2934-4b38-be3b-e05a345714f8
 
