@@ -7,17 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const lang = navigator.language
     localStorage.setItem('lang', lang)
     $('.toast').toast()
-    //ch_list.push("Main channel");
-    // When connected, configure buttons
     socket.on('connect', () => {
       if (localStorage.getItem('user') === null){
         document.querySelector('#login_page').style.display = "block";
         document.querySelector('#home').style.display = "none";
-        //document.querySelector('#form').addEventListener("submit", myScript);
-        //function myScript(){
-        //  var user = document.querySelector("#user-login").value;
-        //  socket.emit('submit login', {'user': user});
-        //}
         document.querySelector('#login').onclick = () => {
           var user = document.querySelector("#user-login").value;
           socket.emit('submit login', {'user': user});
@@ -48,14 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
         var room = document.querySelector('.chan-name').innerHTML;
         socket.emit('change room', {'room':room});
 
-        //const height = (window.innerHeight - document.body.offsetHeight) * 1.2
-        //const height = window.outerHeight - 320;
-        //document.querySelector('#msg-pos').style.top = height + "px";
         document.querySelector('#user').innerHTML = localStorage.getItem('user');
         document.querySelector('#create-channel').onclick = () => {
             if (document.querySelector("#channel-name").value === "") {
               socket.emit('send success', {'success': 'Please enter a name!'});
-              //alert('Please enter a name!')
             } else {
               var ch_name = document.querySelector("#channel-name").value;
               socket.emit('create channel', {'ch_name': ch_name});
@@ -66,11 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#button-addon2').onclick = () => {
           if (document.querySelector("#message").value === '') {
             socket.emit('send success', {'success': 'Please type a message!'});
-            //alert('Please type a message!')
           } else {
             const room = document.querySelector('.chan-name').innerHTML;
             const user = localStorage.getItem('user');
-            //const room = localStorage.getItem('channel');
             const message = document.querySelector("#message").value;
             var ts = Math.round((new Date()).getTime() / 1000);
             document.querySelector('#message').value = ''
@@ -82,8 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
           a.onclick = () => {
             const room = a.innerHTML
             localStorage.setItem('room', room);
-            //const room = this.innerHTML;
-            //const room = localStorage.getItem('channel');
             document.querySelector('.chan-name').innerHTML = room
             document.querySelector('.msg').innerHTML = '';
             socket.emit('change room', {'room':room});
@@ -98,16 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     socket.on('add channel', data => {
-        //const tr = document.createElement('tr');
         const a = document.createElement('a');
         const br = document.createElement('br');
-        //li.innerHTML = `${data.ch}`;
-        //var link = document.createTextNode(`${data.ch}`);
         a.innerHTML = `${data.ch}`;
         a.setAttribute('href', '#');
-        //a.appendChild(link);
-        //a.title = "my title text";
-        //a.href = `${data.ch}`;
         a.className += 'btn btn-primary channel btn-sm btn-block';
         a.style = 'margin-bottom: 10px'
         document.querySelector('#channel-list').appendChild(a);
@@ -117,8 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('success', data => {
       $('#toast').toast('show')
       document.querySelector('.toast-body').innerHTML = `${data.success}`
-      //alert(`${data.success}`)
-      //location.reload();
     });
     socket.on('alert', data => {
       alert(`${data.alert}`)
@@ -131,9 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(usr);
     });
     socket.on('send to room', data => {
-      //var ts = Math.round((new Date()).getTime() / 1000);
       var room = `${data.room}`
-      //var number = $('div.msg > a.a-msg').length
 
       var unix_timestamp = `${data.time}`
       var date = new Date(unix_timestamp * 1000);
@@ -142,20 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var formattedTime = date.toLocaleTimeString(localStorage.getItem('lang'), optionsTime)
       var formattedDate = date.toLocaleDateString(localStorage.getItem('lang'), optionsDate);
 
-
-      //alert(number)
-
       if (document.querySelector('.chan-name').innerHTML === room) {
-        //const a = document.createElement('a');
-        //const br = document.createElement('br');
-        //user = localStorage.getItem('user')
-        //a.innerHTML = `${data.user}: ${data.message}` + formattedTime;
-        //room = document.querySelector('.chan-name').innerHTML;
-
-        //document.querySelector('.msg').append(a);
-        //document.querySelector('.msg').append(br);
-        //document.querySelector('#messages').append(a);
-
         const a_date = document.createElement('a');
         const br = document.createElement('br');
         const end_msg = document.createElement('br');
@@ -167,9 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
           a_date.className += 'float-right ' + `${data.id}`
           const a = document.createElement('a');
           a.type = 'button';
-          //a.classList.add('btn');
-          //a.classList.add('btn-warning');
-          //a.classList.add('a-msg');
           a.className += 'btn btn-warning a-msg float-right ' + `${data.id}`
           a.style = 'text-align: left; left: 100%;';
 
@@ -183,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
             socket.emit('remove message', {'id': id, 'room':room, 'time':`${data.time}`, 'user':user, 'text':text});
           };
 
-          //a.setAttribute('', 'diabled');
           a.innerHTML = `<b>${data.user}</b>: <br>${data.message}`;
 
           document.querySelector('.msg').append(a_date);
@@ -198,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
           a.type = 'button';
           a.className += 'btn btn-info a-msg ' + `${data.id}`
           a.style = 'text-align: left'
-          //a.setAttribute('', 'diabled');
           a.innerHTML = `<b>${data.user}</b>: <br>${data.message}`;
 
           document.querySelector('.msg').append(a_date);
@@ -232,9 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
         a_date.className += 'float-right ' + `${data.id}`
         const a = document.createElement('a');
         a.type = 'button';
-        //a.classList.add('btn');
-        //a.classList.add('btn-warning');
-        //a.classList.add('a-msg');
         a.className += 'btn btn-warning a-msg float-right ' + `${data.id}`
         a.style = 'text-align: left; left: 100%;';
 
@@ -248,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
           socket.emit('remove message', {'id': id, 'room':room, 'time':`${data.time}`, 'user':user, 'text':text});
         };
 
-        //a.setAttribute('', 'diabled');
         a.innerHTML = `<b>${data.user}</b>: <br>${data.text}`;
 
         document.querySelector('.msg').append(a_date);
@@ -263,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
         a.type = 'button';
         a.className += 'btn btn-info a-msg ' + `${data.id}`
         a.style = 'text-align: left'
-        //a.setAttribute('', 'diabled');
         a.innerHTML = `<b>${data.user}</b>: <br>${data.text}`;
 
         document.querySelector('.msg').append(a_date);
