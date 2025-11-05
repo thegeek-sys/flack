@@ -23,6 +23,16 @@ According to CS50 requirements, I added the feature to delete the messages you s
 
 ## Environment variables
 The application can take four optional environment variables:
-  - `SECRET_KEY`. Secret key that Flask uses for encryption.
- application startup.
+  - `SECRET_KEY`: secret key that Flask uses for integrity protection.
 
+## Requirements
+Install the required libraries via `pip` by using
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+Run the app via `flask`
+```bash
+flask --app application run
+```
